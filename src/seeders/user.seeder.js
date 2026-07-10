@@ -2,6 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { faker } from "@faker-js/faker";
+import { randomUUID } from "crypto";
 
 const SALT_ROUNDS = 10;
 
@@ -38,10 +39,11 @@ export async function up(queryInterface, Sequelize) {
     for (let i = 0; i < 10; i++) {
         const hashedPassword = await bcrypt.hash("Password@123", SALT_ROUNDS);
         users.push({
+            uuid: randomUUID(),
             name: faker.person.fullName(),
             email: faker.internet.email(),
             password: hashedPassword,
-            phone: faker.phone.number("+91##########"),
+            phone: faker.phone.number("+91##########").slice(0, 20),
             avatar: faker.image.avatar(),
             role: "user",
             status: faker.helpers.arrayElement(["active", "inactive", "suspended"]),
