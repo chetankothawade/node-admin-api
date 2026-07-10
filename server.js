@@ -1,5 +1,7 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { initializeAppTimezone } from "./src/bootstrap/timezone.js";
+
+dotenv.config({ path: process.env.DOTENV_CONFIG_PATH || ".env.local" });
 
 initializeAppTimezone();
 process.removeAllListeners("warning");
@@ -10,7 +12,7 @@ const [{ default: app }, { default: logger }, { default: db }] = await Promise.a
   import("./src/models/index.js"),
 ]);
 
-const PORT = Number.parseInt(process.env.PORT, 10) || 3000;
+const PORT = Number.parseInt(process.env.PORT, 10) || 8000;
 
 try {
   await db.sequelize.authenticate();
